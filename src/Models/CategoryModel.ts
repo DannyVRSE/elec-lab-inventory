@@ -1,5 +1,5 @@
-import {Table, Column, Model, DataType} from 'sequelize-typescript';
-
+import {Table, Column, Model, DataType, HasMany} from 'sequelize-typescript';
+import Item from './ItemModel';
 
 /*const categoryModel = (sequelize , DataTypes) => {
     const Category = sequelize.define("Category", {
@@ -44,6 +44,10 @@ class Category extends Model {
         allowNull: true,
     })
     description: string;
+
+//association
+    @HasMany(()=>Item)
+    items:Item[]
 }
 
 export default Category;

@@ -1,4 +1,5 @@
-import {Table, Column, Model, CreatedAt, UpdatedAt} from 'sequelize-typescript';
+import {Table, Column, Model, CreatedAt, UpdatedAt, ForeignKey, BelongsTo} from 'sequelize-typescript';
+import Category from './CategoryModel';
 
 @Table
 
@@ -35,6 +36,14 @@ class Item extends Model {
 
     @UpdatedAt
     updatedOn: Date;
+
+    //association
+    @ForeignKey(()=>Category)
+    @Column
+    categoryId:number;
+
+    @BelongsTo(()=>Category)
+    category:Category
 }
 
 export default Item;
