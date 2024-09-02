@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from "cors";
-import sequelize from './Models';
+import sequelize from './Models/index';
+import itemRoutes from './v1/Routes/itemRoutes';
+import categoryRoutes from './v1/Routes/categoryRoutes';
 
 const app=express();
 
@@ -18,10 +20,13 @@ sequelize.sync({force:false})
     console.log(err)
 })
 
-app.get('/',(_req, res)=>{
-    res.send('Hello World');
-})
+
+//routes
+app.use("/api/v1/items", itemRoutes);
+app.use("/api/v1/categories", categoryRoutes);
 
 app.listen(3000,()=>{
     console.log('Server is running on port 3000');
 })
+
+export default app;

@@ -1,4 +1,4 @@
-import {Table, Column, Model, CreatedAt, UpdatedAt, ForeignKey, BelongsTo} from 'sequelize-typescript';
+import { Table, Column, Model, CreatedAt, UpdatedAt, ForeignKey, BelongsTo} from 'sequelize-typescript';
 import Category from './CategoryModel';
 
 @Table
@@ -23,13 +23,20 @@ class Item extends Model {
 
     @Column({
         allowNull: false,
+        unique: true
     })
-    lab_serial_number: string;
+    manufacturer_serial: string;
+
+    @Column({
+        allowNull: false,
+        unique: true
+    })
+    lab_serial: string;
 
     @Column({
         allowNull: false,
     })
-    condtion: string;
+    condition: string;
 
     @CreatedAt
     creationDate: Date;
@@ -38,12 +45,12 @@ class Item extends Model {
     updatedOn: Date;
 
     //association
-    @ForeignKey(()=>Category)
+    @ForeignKey(() => Category)
     @Column
-    categoryId:number;
+    categoryId: number;
 
-    @BelongsTo(()=>Category)
-    category:Category
+    @BelongsTo(() => Category)
+    category: Category
 }
 
 export default Item;
