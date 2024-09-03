@@ -3,8 +3,11 @@ import cors from "cors";
 import sequelize from './Models/index';
 import itemRoutes from './v1/Routes/itemRoutes';
 import categoryRoutes from './v1/Routes/categoryRoutes';
+import swaggerDocs from './v1/swagger';
 
 const app=express();
+
+const PORT=3000;
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -25,8 +28,9 @@ sequelize.sync({force:false})
 app.use("/api/v1/items", itemRoutes);
 app.use("/api/v1/categories", categoryRoutes);
 
-app.listen(3000,()=>{
-    console.log('Server is running on port 3000');
+app.listen(PORT,()=>{
+    swaggerDocs(app, PORT);
+    console.log(`Server is running on port ${PORT}`);
 })
 
 export default app;
