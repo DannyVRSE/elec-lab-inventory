@@ -1,1 +1,2 @@
-#  Manage electrical laboratory inventory
+#  Electrical laboratory inventory
+
