@@ -23,7 +23,6 @@ class Item extends Model {
 
     @Column({
         allowNull: false,
-        unique: true
     })
     manufacturer_serial: string;
 
@@ -54,3 +53,5 @@ class Item extends Model {
 }
 
 export default Item;
+
+//🚩manufucturer name and serial pair should be unique

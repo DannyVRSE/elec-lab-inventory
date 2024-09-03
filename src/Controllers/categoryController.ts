@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 
 //create category
 const createCategory = async (req: Request, res: Response) => {
-    const {categoryName, description} = req.body;
+    const { categoryName, description } = req.body;
 
     //find if category exists
     const categoryId = await Category.findOne({
@@ -29,12 +29,67 @@ const createCategory = async (req: Request, res: Response) => {
 
 //get all categories
 const getCategories = async (_req: Request, res: Response) => {
-    try{
+    try {
         const categories = await Category.findAll();
         return res.status(200).json(categories);
-    }catch(err){
+    } catch (err) {
         console.log(err);
         return res.status(400).json({ message: `${err}` })
-    }}
+    }
+}
 
-export default { createCategory, getCategories }
+//update category
+const updateCategory = async (req: Request, res: Response) => {
+    const categoryId = req.params.id;
+    const {categoryName, description} = req.body;
+
+    const categoryDetails = {
+        ...(categoryName && { name: categoryName }),
+        ...(description && { description: description })
+    }
+
+    //find category
+
+    const category = await Category.findOne({
+        where: { id: categoryId }
+    });
+
+    if (!category) {
+        return res.status(404).json({ message: `Category ${categoryId} doesn't exist!` });
+    }
+
+    try {
+        await Category.update(categoryDetails, {
+            where: { id: categoryId }
+        });
+
+        return res.status(200).json({ message: `Category ${categoryId} updated!` });
+    } catch (err) {
+        return res.status(400).json({ message: `${err}` });
+    }
+};
+
+//delete category
+const deleteCategory = async (req: Request, res: Response) => {
+    const categoryId = req.params.id;
+
+    const category = await Category.findOne({
+        where: { id: categoryId }
+    });
+
+    if (!category) {
+        return res.status(404).json({ message: `Category ${categoryId} doesn't exist!` });
+    }
+
+    try {
+        await Category.destroy({
+            where: { id: categoryId }
+        });
+
+        return res.status(200).json({ message: `Category ${categoryId} deleted!` });
+    } catch (err) {
+        return res.status(400).json({ message: `${err}` });
+    }
+};
+
+export default { createCategory, getCategories, updateCategory, deleteCategory }
