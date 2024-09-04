@@ -1,5 +1,6 @@
 import Item from "../Models/ItemModel"
 import Category from "../Models/CategoryModel"
+import Joi from "joi";
 
 //add item to inventory
 import { Request, Response } from 'express';
@@ -56,16 +57,21 @@ const updateItem = async (req: Request, res: Response) => {
         ...(category && { categoryId: category })
     }
 
-    /*if (itemDetails.categoryId) {
-        const categoryId = await Category.findOne({
-            attributes: ['id'],
-            where: { id: category }
-        });
+    const schema = Joi.object({
+        manufacturer: Joi.string(),
+        model: Joi.string(),
+        lab_serial: Joi.string(),
+        manufacturer_serial: Joi.string(),
+        condition: Joi.string(),
+        category: Joi.number()
+    });
 
-        if (!categoryId) {
-            return res.status(404).json({ message: `category ${category} doesn't exist!` })
-        }
-    }*/
+    try{
+        const value = await schema.validateAsync(itemDetails);
+        console.log(value);
+    }catch(err){
+        return res.status(400).json({ message: `${err}` })
+    }
 
     //update item
     try {
@@ -81,6 +87,17 @@ const updateItem = async (req: Request, res: Response) => {
 //delete item
 const deleteItem = async (req: Request, res: Response) => {
     const itemId = req.params.id;
+
+    const schema = Joi.object({
+        id: Joi.number().required()
+    });
+
+    try{
+        const value = await schema.validateAsync({id: itemId});
+        console.log(value);
+    }catch(err){
+        return res.status(400).json({ message: `${err}` })
+    }
 
     try {
         const item = await Item.destroy({ where: { id: itemId } });

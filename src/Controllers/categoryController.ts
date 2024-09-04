@@ -1,9 +1,22 @@
 import Category from "../Models/CategoryModel";
 import { Request, Response } from 'express';
+import Joi from "joi";
 
 //create category
 const createCategory = async (req: Request, res: Response) => {
     const { categoryName, description } = req.body;
+
+    const schema = Joi.object({
+        categoryName: Joi.string().required(),
+        description: Joi.string().required()
+    });
+
+    try {
+        const value = await schema.validateAsync({ categoryName, description });
+        console.log(value);
+    } catch (err) {
+        return res.status(400).json({ message: `${err}` });
+    }
 
     //find if category exists
     const categoryId = await Category.findOne({
@@ -41,7 +54,7 @@ const getCategories = async (_req: Request, res: Response) => {
 //update category
 const updateCategory = async (req: Request, res: Response) => {
     const categoryId = req.params.id;
-    const {categoryName, description} = req.body;
+    const { categoryName, description } = req.body;
 
     const categoryDetails = {
         ...(categoryName && { name: categoryName }),
@@ -72,6 +85,17 @@ const updateCategory = async (req: Request, res: Response) => {
 //delete category
 const deleteCategory = async (req: Request, res: Response) => {
     const categoryId = req.params.id;
+
+    const schema = Joi.object({
+        categoryId: Joi.number().required()
+    });
+
+    try {
+        const value = await schema.validateAsync({ categoryId });
+        console.log(value);
+    } catch (err) {
+        return res.status(400).json({ message: `${err}` });
+    }
 
     const category = await Category.findOne({
         where: { id: categoryId }
