@@ -10,6 +10,23 @@ const addItem = async (req: Request, res: Response) => {
 
     console.log(req.body, "req.body");
 
+    //validate item details
+    const schema = Joi.object({
+        manufacturer: Joi.string().required(),
+        model: Joi.string().required(),
+        lab_serial: Joi.string().required(),
+        manufacturer_serial: Joi.string().required(),
+        condition: Joi.string().required(),
+        category: Joi.number().required()
+    });
+
+    try {
+        const value = await schema.validateAsync({ manufacturer, model, lab_serial, manufacturer_serial, condition, category });
+        console.log(value);
+    }catch(err){
+        return res.status(400).json({ message: `${err}` })
+    }
+
     //Get category Id
     const categoryId = await Category.findOne({
         attributes: ['id'],
@@ -57,6 +74,7 @@ const updateItem = async (req: Request, res: Response) => {
         ...(category && { categoryId: category })
     }
 
+    //validate item details
     const schema = Joi.object({
         manufacturer: Joi.string(),
         model: Joi.string(),
@@ -88,6 +106,7 @@ const updateItem = async (req: Request, res: Response) => {
 const deleteItem = async (req: Request, res: Response) => {
     const itemId = req.params.id;
 
+//validate item id
     const schema = Joi.object({
         id: Joi.number().required()
     });

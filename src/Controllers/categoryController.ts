@@ -6,6 +6,7 @@ import Joi from "joi";
 const createCategory = async (req: Request, res: Response) => {
     const { categoryName, description } = req.body;
 
+    //validate category details
     const schema = Joi.object({
         categoryName: Joi.string().required(),
         description: Joi.string().required()
@@ -56,6 +57,7 @@ const updateCategory = async (req: Request, res: Response) => {
     const categoryId = req.params.id;
     const { categoryName, description } = req.body;
 
+    //validate category details
     const categoryDetails = {
         ...(categoryName && { name: categoryName }),
         ...(description && { description: description })
@@ -86,6 +88,7 @@ const updateCategory = async (req: Request, res: Response) => {
 const deleteCategory = async (req: Request, res: Response) => {
     const categoryId = req.params.id;
 
+    //validate category details
     const schema = Joi.object({
         categoryId: Joi.number().required()
     });
