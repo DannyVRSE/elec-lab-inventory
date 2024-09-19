@@ -5,9 +5,9 @@ import itemRoutes from './v1/Routes/itemRoutes';
 import categoryRoutes from './v1/Routes/categoryRoutes';
 import swaggerDocs from './v1/swagger';
 
-const app=express();
+const app = express();
 
-const PORT=3000;
+const PORT = 8081;
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
