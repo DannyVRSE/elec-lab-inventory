@@ -11,8 +11,14 @@ const PORT = 8081;
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+
+//cors options
+const corsOptions={
+    origin: process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : [],
+    optionsSuccessStatus:200
+}
 //cors middleware
-app.use(cors());
+app.use(cors(corsOptions));
 
 //sync database
 sequelize.sync({force:false})

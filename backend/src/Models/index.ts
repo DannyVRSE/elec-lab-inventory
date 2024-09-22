@@ -1,4 +1,4 @@
-import {Sequelize} from "sequelize-typescript";
+import { Sequelize } from "sequelize-typescript";
 import env from 'dotenv';
 import Item from "./ItemModel";
 import Category from "./CategoryModel";
