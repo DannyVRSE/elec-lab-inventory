@@ -1,0 +1,12 @@
+.home {
+    display: flex;
+    justify-content: center;
+    /* horizontally center */
+    align-items: center;
+    /* vertically center */
+    height: 100vh;
+}
+
+.inner-div-1{
+    margin-top:15%
+}
